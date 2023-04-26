@@ -1,0 +1,269 @@
+USE [master]
+GO
+/****** Object:  Database [Project]    Script Date: 3/15/2023 12:23:15 AM ******/
+CREATE DATABASE [Project]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'Project', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Project.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'Project_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\Project_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [Project] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Project].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Project] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Project] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Project] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Project] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Project] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Project] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Project] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Project] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Project] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Project] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Project] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Project] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Project] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Project] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Project] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [Project] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Project] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Project] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Project] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Project] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Project] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Project] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Project] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Project] SET  MULTI_USER 
+GO
+ALTER DATABASE [Project] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Project] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Project] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Project] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Project] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Project] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'Project', N'ON'
+GO
+ALTER DATABASE [Project] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [Project] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [Project]
+GO
+/****** Object:  Table [dbo].[Account]    Script Date: 3/15/2023 12:23:15 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[account] [varchar](255) NOT NULL,
+	[password] [varchar](32) NOT NULL,
+	[user_id] [int] NOT NULL,
+ CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
+(
+	[account] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Download]    Script Date: 3/15/2023 12:23:15 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Download](
+	[file_id] [int] NOT NULL,
+	[download_id] [int] IDENTITY(1,1) NOT NULL,
+	[user_id] [int] NOT NULL,
+	[download_date] [datetime] NULL,
+ CONSTRAINT [PK__Download__2EDDE1CDF12812B2] PRIMARY KEY CLUSTERED 
+(
+	[download_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Files]    Script Date: 3/15/2023 12:23:15 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Files](
+	[file_id] [int] IDENTITY(1,1) NOT NULL,
+	[file_name] [nvarchar](255) NULL,
+	[file_desc] [text] NULL,
+	[file_url] [nvarchar](255) NULL,
+	[file_add_on] [datetime] NULL,
+	[file_download_time] [int] NULL,
+	[type] [varchar](20) NULL,
+ CONSTRAINT [PK__Files__07D884C609EEB5EB] PRIMARY KEY CLUSTERED 
+(
+	[file_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[User]    Script Date: 3/15/2023 12:23:15 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[User](
+	[user_id] [int] IDENTITY(1,1) NOT NULL,
+	[user_fullname] [varchar](255) NOT NULL,
+	[birthdate] [date] NOT NULL,
+	[is_admin] [bit] NOT NULL,
+ CONSTRAINT [PK_Userr] PRIMARY KEY CLUSTERED 
+(
+	[user_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'123456789', N'qwerty', 14)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'bach17901', N'bach1792991', 12)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'bachpx123456', N'123451234', 10)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'bachpx12345665', N'123412341234', 11)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'hiashdfiasd', N'asfydgaskdf', 2)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'hihihihi', N'12345678', 15)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'qwertyu', N'123456789', 13)
+GO
+INSERT [dbo].[Account] ([account], [password], [user_id]) VALUES (N'sonbn', N'abc123', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Download] ON 
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (1, 1, 1, CAST(N'2023-03-14T23:27:31.290' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (4, 2, 1, CAST(N'2023-03-14T23:27:31.290' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (6, 3, 1, CAST(N'2023-03-14T23:27:31.290' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (3, 4, 2, CAST(N'2023-03-14T23:27:31.290' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (5, 5, 1, NULL)
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (1, 6, 1, CAST(N'2023-03-15T00:15:29.940' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (8, 7, 1, CAST(N'2023-03-15T00:16:43.230' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (5, 8, 1, CAST(N'2023-03-15T00:16:47.010' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (10, 9, 1, CAST(N'2023-03-15T00:16:49.657' AS DateTime))
+GO
+INSERT [dbo].[Download] ([file_id], [download_id], [user_id], [download_date]) VALUES (2, 10, 1, CAST(N'2023-03-15T00:16:52.677' AS DateTime))
+GO
+SET IDENTITY_INSERT [dbo].[Download] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Files] ON 
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (1, N'Lion', N'brown lion wallpaper, muzzle, mane, lo??, predator, lion - Feline', N'https://drive.google.com/file/d/1I0Yhvj9Vi6BLyT-MHcv9clDihBGEuLOs/view', CAST(N'2023-03-14T02:31:34.010' AS DateTime), 17, N'image')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (2, N'AOE', N'Age of Empires, còn du?c bi?t d?n ? Vi?t Nam v?i tên g?i "Ð? ch?", là m?t dòng trò choi di?n t? chi?n thu?t th?i gian th?c mang tính ch?t l?ch s?, ban d?u do Ensemble Studios phát tri?n và Xbox Game Studios phát hành. Ph?n d?u tiên c?a dòng trò choi là Age of Empires, ra m?t vào nam 1997', N'https://drive.google.com/file/d/1SIGgBaqNJLkL0VVEP5VNG-2wTOHGiueA/view', CAST(N'2023-03-14T02:32:33.280' AS DateTime), 3, N'game')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (3, N'dapmocupctinh.mp3', N'Dap mo cuoc tinh', N'https://drive.google.com/file/d/11oN4ob3xVf474j-CaxypFDxORWbx2LoF/view', CAST(N'2023-03-14T02:33:55.870' AS DateTime), 1, N'music')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (4, N'meodihia.ts', N'Puss In Boots - The Last Wish', N'https://drive.google.com/file/d/1RI33lQ3OcnBvGYi-NKoHdCBsQ-bliii0/view', CAST(N'2023-03-14T02:34:47.197' AS DateTime), 1, N'flim')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (5, N'apachenetbean13', N'Apache Netbeans 13', N'https://drive.google.com/file/d/1y7iouzTi_RbscQomLWtcbhJOOI5dXKIp/view', CAST(N'2023-03-14T02:36:01.053' AS DateTime), 17, N'software')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (6, N'osg_document', N'OSG document', N'https://drive.google.com/drive/folders/12ax32KipKceh-eLm_XMnjDCfgQS0Ch1i', CAST(N'2023-03-14T02:37:16.850' AS DateTime), 7, N'document')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (7, N'NierAutomata', N'Nier Automata', N'https://drive.google.com/file/d/1g0FzIPEDfUpuwuBEgGxNXNfc99VOknTr/view', CAST(N'2023-03-14T02:38:16.770' AS DateTime), 2, N'image')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (8, N'CS11', N'Counter-Strike 1.1', N'https://drive.google.com/file/d/1UMzPgprY1aFSUBELwwxZhkwVU6KHm1tx/view', CAST(N'2023-03-14T02:38:16.770' AS DateTime), 1237, N'game')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (9, N'Fred Eddy_Vietnam', N'Fred Eddy - Vietnam', N'https://drive.google.com/file/d/1306-t8tgX4bCZKfVLE4Q6frwzOHcFqZo/view', CAST(N'2023-03-14T02:38:16.770' AS DateTime), 4, N'music')
+GO
+INSERT [dbo].[Files] ([file_id], [file_name], [file_desc], [file_url], [file_add_on], [file_download_time], [type]) VALUES (10, N'Top Gun: Maverick', N'Top Gun: Maverick', N'https://drive.google.com/file/d/1NrSTvxW1FzjzH5IMhmiT7soVbDDlzhRh/view', CAST(N'2023-03-14T02:38:16.770' AS DateTime), 8, N'flim')
+GO
+SET IDENTITY_INSERT [dbo].[Files] OFF
+GO
+SET IDENTITY_INSERT [dbo].[User] ON 
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (1, N'sonbui', CAST(N'2001-10-20' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (2, N'phamxuanbach', CAST(N'2023-03-14' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (3, N'phamxuanbach', CAST(N'2023-03-14' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (4, N'phamxuanbach', CAST(N'2019-07-13' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (5, N'phamxuanbach', CAST(N'2019-07-13' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (6, N'phamxuanbach', CAST(N'2023-02-04' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (7, N'phamxuanbach', CAST(N'2021-07-04' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (8, N'phamxuanbach', CAST(N'2022-07-14' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (9, N'phamxuanbach', CAST(N'2023-02-17' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (10, N'phamxuanbach', CAST(N'2022-06-14' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (11, N'phamxuanbach', CAST(N'2023-03-12' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (12, N'Pham Xuan Bach', CAST(N'2020-07-14' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (13, N'sonbuipro', CAST(N'2021-03-13' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (14, N'sonbuipro', CAST(N'2021-07-09' AS Date), 0)
+GO
+INSERT [dbo].[User] ([user_id], [user_fullname], [birthdate], [is_admin]) VALUES (15, N'hahahaha', CAST(N'2023-03-04' AS Date), 0)
+GO
+SET IDENTITY_INSERT [dbo].[User] OFF
+GO
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD  CONSTRAINT [FK_Account_User] FOREIGN KEY([user_id])
+REFERENCES [dbo].[User] ([user_id])
+GO
+ALTER TABLE [dbo].[Account] CHECK CONSTRAINT [FK_Account_User]
+GO
+ALTER TABLE [dbo].[Download]  WITH CHECK ADD  CONSTRAINT [FK__Download__file_i__3D5E1FD2] FOREIGN KEY([file_id])
+REFERENCES [dbo].[Files] ([file_id])
+GO
+ALTER TABLE [dbo].[Download] CHECK CONSTRAINT [FK__Download__file_i__3D5E1FD2]
+GO
+ALTER TABLE [dbo].[Download]  WITH CHECK ADD  CONSTRAINT [FK_Download_User] FOREIGN KEY([user_id])
+REFERENCES [dbo].[User] ([user_id])
+GO
+ALTER TABLE [dbo].[Download] CHECK CONSTRAINT [FK_Download_User]
+GO
+USE [master]
+GO
+ALTER DATABASE [Project] SET  READ_WRITE 
+GO

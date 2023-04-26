@@ -25,8 +25,6 @@ public class DBContext {
             String url = "jdbc:sqlserver://localhost:1433;databaseName=Project";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("success");
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

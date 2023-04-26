@@ -13,6 +13,26 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Downme.com</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Font Awesome -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+            />
+        <!-- Google Fonts -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+            />
+        <!-- MDB -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+            />
+        <!-- MDB -->
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+        ></script>
         <style>
             header {
                 display: flex;
@@ -164,48 +184,122 @@
 
                 </form>
             </div>
-            <form>
+<!--            <form>
                 <input  id="txtSearch" oninput="searchByName(this)" type="text" name="query" placeholder="Search...">
                 <input type="submit" value="Search">
-            </form>
+            </form>-->
 
 
         </header>
-        <ul class="menu">
+<!--        <ul class="menu">
             <li><a href="#" onclick="TypeFile('image')">Image</a></li>
             <li><a href="#" onclick="TypeFile('game')">Game</a></li>
             <li><a href="#" onclick="TypeFile('music')">Music</a></li>
             <li><a href="#" onclick="TypeFile('flim')">Film</a></li>
             <li><a href="#" onclick="TypeFile('software')">Software</a></li>
             <li><a href="#" onclick="TypeFile('document')">Document</a></li>
-        </ul>
+        </ul>-->
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand"></a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarTogglerDemo02"
+                    aria-controls="navbarTogglerDemo02"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    >
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('image')">Image</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('game')">Game</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('music')">Music</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('flim')">Flim</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('software')">Software</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="TypeFile('document')">Document</a>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex input-group w-auto">
+                        <input oninput="searchByName(this)" type="text" name="query" placeholder="Search..."
+                            
+                            class="form-control"
+                            aria-label="Search"
+                            />
+                        <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            data-mdb-ripple-color="dark"
+                            >
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
         <div id="content">
             <h1>Most Downloaded Files</h1>
             <c:forEach items="${requestScope.top5download}" var="element">
                 <div class="container">
-                    <ul class="image-list">
-                        <li>				
-                            <div>
-                                <h2>${element.getFile_name()}</h2>
-                                <p>${element.getFile_desc()}</p>				
-                            </div>
-                            <a href="#" class="download-link" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
-                        </li>
-                    </ul>
+
+                    <div class="card">
+                        <!--                        <div class="card-header">Featured</div>-->
+                        <div class="card-body">
+                            <h5 class="card-title">${element.getFile_name()}</h5>
+                            <p class="card-text">${element.getFile_desc()}</p>
+                            <a href="#" class="btn btn-primary" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
+                        </div>
+                    </div>
+
+                    <!--                    <ul class="image-list">
+                                            <li>				
+                                                <div>
+                                                    <h2>${element.getFile_name()}</h2>
+                                                    <p>${element.getFile_desc()}</p>				
+                                                </div>
+                                                <a href="#" class="download-link" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
+                                            </li>
+                                        </ul>-->
                 </div>
             </c:forEach>
             <h1>Available for Download Now</h1>
             <c:forEach items="${requestScope.top6nonelike}" var="element">
                 <div class="container">
-                    <ul class="image-list">
-                        <li>				
-                            <div>
-                                <h2>${element.getFile_name()}</h2>
-                                <p>${element.getFile_desc()}</p>				
-                            </div>
-                            <a href="#" class="download-link" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
-                        </li>
-                    </ul>
+
+                    <div class="card">
+                        <!--                        <div class="card-header">Featured</div>-->
+                        <div class="card-body">
+                            <h5 class="card-title">${element.getFile_name()}</h5>
+                            <p class="card-text">${element.getFile_desc()}</p>
+                            <a href="#" class="btn btn-primary" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
+                        </div>
+                    </div>
+
+                    <!--                    <ul class="image-list">
+                                            <li>				
+                                                <div>
+                                                    <h2>${element.getFile_name()}</h2>
+                                                    <p>${element.getFile_desc()}</p>				
+                                                </div>
+                                                <a href="#" class="download-link" onclick="downloadwithFile_Id(${element.getFile_id()})">Download</a>
+                                            </li>
+                                        </ul>-->
                 </div>
             </c:forEach>
         </div>
