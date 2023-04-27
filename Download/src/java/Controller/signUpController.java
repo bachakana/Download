@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Dal.AccountDal;
+import Dal.DBContext;
 import Dal.UserDal;
 import Model.User;
 import Model.Account;
@@ -25,6 +26,9 @@ import Model.Account;
  */
 public class signUpController extends HttpServlet {
 
+    public void init(){
+        new DBContext();
+    }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String fullname = req.getParameter("fullname");

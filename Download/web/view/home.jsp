@@ -202,7 +202,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
-                <a class="navbar-brand"></a>
+                <a class="navbar-brand" href="#">Navbar</a>
                 <button
                     class="navbar-toggler"
                     type="button"

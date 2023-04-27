@@ -110,13 +110,14 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input id="form3Example1q" class="form-control" type="password" placeholder="Enter Password" name="password" required />
+                                            <input id="password" class="form-control" type="password" placeholder="Enter Password" name="password" required />
                                             <label class="form-label" for="form3Example1q">Password</label>
                                         </div>
 
                                         <div class="form-outline mb-4">
-                                            <input id="form3Example1q" class="form-control" type="password" placeholder="Re-enter Password" name="re-password" required />
+                                            <input id="repassword" onchange="check()" class="form-control" type="password" placeholder="Re-enter Password" name="re-password" required />
                                             <label class="form-label" for="form3Example1q">Re-EnterPassword</label>
+                                            <span id="error" style="color: red"></span>
                                         </div>
 
                                         <div class="row">
@@ -124,7 +125,7 @@
 
                                                 <div class="form-outline datepicker">
                                                     <label for="exampleDatepicker1" class="form">Birth Date</label>
-                                                    <input type="date" class="form-control" id="exampleDatepicker1" />
+                                                    <input type="date" name="birthdate" class="form-control" id="exampleDatepicker1" />
 
                                                 </div>
 
@@ -170,5 +171,20 @@
                 Already have an account? <a href="${pageContext.request.contextPath}\view\login.jsp">Login</a>
             </div>-->
         </div>
+            
+            <script>
+                function check(){
+                    console.log("check");
+                    var password = document.getElementById("password").value;
+                    var repassword = document.getElementById("repassword").value;
+                    console.log(password);
+                    console.log(repassword);
+                    if(password !== repassword){
+                        document.getElementById("error").innerHTML = "repassword and password are not the same";
+                    }else{
+                        document.getElementById("error").innerHTML = "";
+                    }
+                }
+            </script>
     </body>
 </html>
